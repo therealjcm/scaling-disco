@@ -2,13 +2,21 @@
 // Created by jasonm on 10/12/2016.
 //
 
-#include <SFML/Window.hpp>
-#include <iostream>
-
+#include <SFML/Graphics.hpp>
 
 int main()
 {
-    sf::Window window(sf::VideoMode(300, 200), "the title");
+    sf::RenderWindow window(sf::VideoMode(640, 480), "the title");
+    window.setFramerateLimit(60);
+
+    sf::CircleShape circleShape(50);
+    circleShape.setFillColor(sf::Color::Red);
+    circleShape.setOutlineColor(sf::Color::White);
+    circleShape.setOutlineThickness(3);
+
+    sf::RectangleShape rectangleShape(sf::Vector2f(50, 50));
+    rectangleShape.setFillColor(sf::Color::Green);
+
 	while (window.isOpen())
 	{
 		// handle input
@@ -20,6 +28,9 @@ int main()
 			case sf::Event::EventType::Closed:
 				window.close();
 				break;
+            case sf::Event::EventType::Resized:
+
+
 			case sf::Event::EventType::KeyPressed:
 				if (event.key.code == sf::Keyboard::Key::Space)
 					window.setTitle("space pressed");
@@ -33,9 +44,18 @@ int main()
 			}
 		}
 
-		// update frame - update objects in the scene
+		// update scene
+        rectangleShape.rotate(1.5f);
+        rectangleShape.move(sf::Vector2f(1, 0));
 
-		// render frame - render objects from the scene into the window
+        // render cycle
+        window.clear(sf::Color::Black);
+
+        // draw all the objects
+        window.draw(circleShape);
+        window.draw(rectangleShape);
+
+        window.display();
 	}
     return 0;
 }
