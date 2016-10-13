@@ -15,9 +15,21 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::EventType::Closed)
+			switch (event.type)
 			{
+			case sf::Event::EventType::Closed:
 				window.close();
+				break;
+			case sf::Event::EventType::KeyPressed:
+				if (event.key.code == sf::Keyboard::Key::Space)
+					window.setTitle("space pressed");
+				break;
+			case sf::Event::EventType::KeyReleased:
+				if (event.key.code == sf::Keyboard::Key::Space)
+					window.setTitle("space released");
+				else if (event.key.code == sf::Keyboard::Key::Escape)
+					window.close();
+				break;
 			}
 		}
 
