@@ -9,7 +9,21 @@
 int main()
 {
     sf::Window window(sf::VideoMode(300, 200), "the title");
-    std::cin.get();
-    window.close();
+	while (window.isOpen())
+	{
+		// handle input
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::EventType::Closed)
+			{
+				window.close();
+			}
+		}
+
+		// update frame - update objects in the scene
+
+		// render frame - render objects from the scene into the window
+	}
     return 0;
 }
