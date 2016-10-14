@@ -44,6 +44,14 @@ int main()
 		}
 
 		// update scene
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            playerSprite.move(0, -1);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            playerSprite.move(0, 1);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            playerSprite.move(-1, 0);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            playerSprite.move(1, 0);
 
         // render cycle
         window.clear(sf::Color::Black);
