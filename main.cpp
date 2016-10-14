@@ -15,28 +15,23 @@ void initShape(sf::RectangleShape &shape, sf::Vector2f const &pos, sf::Color con
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "octocat is here");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "cliping texture on convex surface");
     window.setFramerateLimit(60);
 
-    sf::Texture playerTexture;
-    playerTexture.loadFromFile("octocat.png");
-    sf::Vector2u size = playerTexture.getSize();
-    float w = static_cast<float>(size.x);
-    float h = static_cast<float>(size.y);
+    sf::Texture shapeTexture;
+    shapeTexture.loadFromFile("80x80@.png");
 
-	sf::Vector2f startPos = sf::Vector2f(100, 50);
-	sf::RectangleShape playerRect(sf::Vector2f(w, h));
-    // sf::RectangleShape playerRect(sf::Vector2f(50, 50));
-	initShape(playerRect, startPos, sf::Color::Green);
-    playerRect.setTexture(&playerTexture);
+	sf::ConvexShape shape(5);
+	shape.setPoint(0, sf::Vector2f(0, 0));
+	shape.setPoint(1, sf::Vector2f(200, 0));
+	shape.setPoint(2, sf::Vector2f(180, 120));
+	shape.setPoint(3, sf::Vector2f(100, 200));
+	shape.setPoint(4, sf::Vector2f(20, 120));
 
-	sf::RectangleShape targetRect(sf::Vector2f(50, 50));
-	initShape(targetRect, sf::Vector2f(550, 50), sf::Color::Blue);
-
-	sf::RectangleShape badRect(sf::Vector2f(100, 100));
-	initShape(badRect, sf::Vector2f(350, 50), sf::Color::Red);
-
-	bool gamePaused = false;
+	shape.setTexture(&shapeTexture);
+	shape.setOutlineThickness(2);
+	shape.setOutlineColor(sf::Color::Red);
+	shape.move(20, 20);
 
 	while (window.isOpen())
 	{
@@ -61,28 +56,12 @@ int main()
 		}
 
 		// update scene
-		// player rect is always moving right
-		playerRect.move(0.2, 0);
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-			playerRect.move(0, 1);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-			playerRect.move(0, -1);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-            playerRect.move(1, 0);
-
-		if (playerRect.getGlobalBounds().intersects(targetRect.getGlobalBounds()))
-			window.close();
-		if (playerRect.getGlobalBounds().intersects(badRect.getGlobalBounds()))
-			playerRect.setPosition(startPos);
 
         // render cycle
         window.clear(sf::Color::Black);
 
         // draw all the objects
-        window.draw(playerRect);
-        window.draw(targetRect);
-		window.draw(badRect);
+        window.draw(shape);
 
         window.display();
 	}
