@@ -18,6 +18,21 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "cliping texture on convex surface");
     window.setFramerateLimit(60);
 
+    sf::Texture texture;
+    texture.loadFromFile("iso_tile1.png");
+    sf::Vector2u textureSize = texture.getSize();
+    texture.setRepeated(true);
+
+//    float textureW = static_cast<float>(textureSize.x);
+//    float textureH = static_cast<float>(textureSize.y);
+
+//    sf::RectangleShape rectangleShape(sf::Vector2f(textureW * 3, textureH * 2));
+//    rectangleShape.setTextureRect(sf::IntRect(0, 0, textureW * 3, textureH * 2));
+
+    sf::RectangleShape rectangleShape(sf::Vector2f(800, 600));
+    rectangleShape.setTextureRect(sf::IntRect(0, 0, 800, 600));
+    rectangleShape.setTexture(&texture);
+
     sf::Texture shapeTexture;
     shapeTexture.loadFromFile("80x80@.png");
 
@@ -61,6 +76,7 @@ int main()
         window.clear(sf::Color::Black);
 
         // draw all the objects
+        window.draw(rectangleShape);
         window.draw(shape);
 
         window.display();
