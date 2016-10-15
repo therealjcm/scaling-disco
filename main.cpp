@@ -3,23 +3,22 @@
 //
 
 #include <SFML/Graphics.hpp>
+#include "AssetManager.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "sprite is here");
+    AssetManager the_manager;
     window.setFramerateLimit(60);
 
-    sf::Texture bgTexture;
-    bgTexture.loadFromFile("iso_tile1.png");
+    sf::Texture bgTexture = AssetManager::GetTexture("iso_tile1.png");
     bgTexture.setRepeated(true);
 
     sf::RectangleShape background(sf::Vector2f(800, 600));
     background.setTextureRect(sf::IntRect(0, 0, 800, 600));
     background.setTexture(&bgTexture);
 
-    sf::Texture playerTexture;
-    playerTexture.loadFromFile("80x80@.png");
-    sf::Sprite playerSprite(playerTexture);
+    sf::Sprite playerSprite = sf::Sprite(AssetManager::GetTexture("80x80@.png"));
 
 	while (window.isOpen())
 	{

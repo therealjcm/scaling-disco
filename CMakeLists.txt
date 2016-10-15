@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE Release)
 set(SFML_ROOT "C:\\Program Files (x86)\\SFML")
 
 set(SOURCE_FILES
-        main.cpp)
+        main.cpp AssetManager.cpp)
 
 add_executable(scaling-disco ${SOURCE_FILES})
 
