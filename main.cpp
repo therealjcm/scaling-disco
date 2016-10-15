@@ -19,9 +19,22 @@ int main()
     background.setTexture(&bgTexture);
 
     sf::Sprite playerSprite = sf::Sprite(AssetManager::GetTexture("80x80@.png"));
+    sf::Sprite treasureSprite = sf::Sprite(AssetManager::GetTexture("spritesheet-jittery-a.png"));
+    sf::Sprite playerSprite2 = sf::Sprite(AssetManager::GetTexture("80x80@.png"));
+
+    sf::Vector2i spriteSize(32, 32);
+    treasureSprite.setTextureRect(sf::IntRect(0, 0, spriteSize.x, spriteSize.y));
+    int nSpriteFrames = 8;
+    float animDuration = 1.0f;
+
+    sf::Time deltaTime, elapsedTime;
+    sf::Clock clock;
 
 	while (window.isOpen())
 	{
+        deltaTime = clock.restart();
+        elapsedTime += deltaTime;
+        float etSeconds = elapsedTime.asSeconds();
 		// handle input
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -42,15 +55,23 @@ int main()
 			}
 		}
 
-		// update scene
+        // update scene
+
+        int frame = static_cast<int>((etSeconds / animDuration) * nSpriteFrames) % nSpriteFrames;
+        treasureSprite.setTextureRect(sf::IntRect(frame * spriteSize.x, 0, spriteSize.x, spriteSize.y));
+
+        float speed = 30.0f * deltaTime.asSeconds();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+            speed *= 2;
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            playerSprite.move(0, -1);
+            playerSprite.move(0, -1 * speed);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            playerSprite.move(0, 1);
+            playerSprite.move(0, speed);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            playerSprite.move(-1, 0);
+            playerSprite.move(-1 * speed, 0);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            playerSprite.move(1, 0);
+            playerSprite.move(speed, 0);
 
         // render cycle
         window.clear(sf::Color::Black);
@@ -58,6 +79,7 @@ int main()
         // draw all the objects
         window.draw(background);
         window.draw(playerSprite);
+        window.draw(treasureSprite);
 
         window.display();
 	}
